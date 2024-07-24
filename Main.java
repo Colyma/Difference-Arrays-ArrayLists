@@ -6,89 +6,109 @@ public class Main
 {
     public static void main(String[] args) 
     {
-        Scanner scanner = new Scanner(System.in);
-
-        // Array Example with user input
-        System.out.println("Array Example:");
-        int[] intArray = new int[5]; // Declaring an array of fixed size 5
-
-        for (int i = 0; i < intArray.length; i++) 
+        // Using try-with-resources to ensure Scanner is closed automatically
+        try (Scanner scanner = new Scanner(System.in)) 
         {
+            // Array Example with user input
+            System.out.println("Array Example:");
+            int[] intArray = new int[5]; // Declaring an array of fixed size 5
+
+            for (int i = 0; i < intArray.length; i++) 
+            {
+                while (true) 
+                {
+                    try 
+                    {
+                        System.out.print("Enter an integers for array element at index " + i + ": ");
+                        intArray[i] = scanner.nextInt();
+                        break; // Exit loop if input is valid
+                    } 
+                    catch (InputMismatchException e) 
+                    {
+                        System.out.println("Invalid input. Please enter an integer.");
+                        scanner.next(); // Clear the invalid input
+                    }
+                }
+            }
+
+            // Iterating over the array using a for loop
+            for (int i = 0; i < intArray.length; i++) 
+            {
+                System.out.println("Element at index " + i + ": " + intArray[i]);
+            }
+
+            // ArrayList Example with user input
+            System.out.println("\nArrayList Example:");
+            ArrayList<Integer> intList = new ArrayList<>(); // Declaring an ArrayList
+            
             while (true) 
             {
+                System.out.print("Enter an integer to add to the ArrayList (or type 'done' to finish): ");
                 try 
                 {
-                    System.out.print("Enter an integer for array element at index " + i + ": ");
-                    intArray[i] = scanner.nextInt();
-                    break; // Exit loop if input is valid
+                    if (scanner.hasNextInt()) 
+                    {
+                        intList.add(scanner.nextInt());
+                    } 
+                    else 
+                    {
+                        String input = scanner.next();
+                        if (input.equalsIgnoreCase("done")) 
+                        {
+                            break;
+                        } 
+                        else 
+                        {
+                            System.out.println("Invalid input. Please enter an integer or 'done' to finish.");
+                        }
+                    }
                 } 
-                catch (InputMismatchException e) 
+                catch (NumberFormatException e) 
                 {
-                    System.out.println("Invalid input. Please enter an integer.");
-                    scanner.next(); // Clear the invalid input
+                    System.out.println("Invalid input. Please enter an integer or 'done' to finish.");
                 }
             }
-        }
 
-        // Iterating over the array using a for loop
-        for (int i = 0; i < intArray.length; i++) 
-        {
-            System.out.println("Element at index " + i + ": " + intArray[i]);
-        }
-
-        // ArrayList Example with user input
-        System.out.println("\nArrayList Example:");
-        ArrayList<Integer> intList = new ArrayList<>(); // Declaring an ArrayList
-        
-        while (true) 
-        {
-            System.out.print("Enter an integer to add to the ArrayList (or type 'done' to finish): ");
-            try 
+            // Iterating over the ArrayList using a for loop
+            for (int i = 0; i < intList.size(); i++) 
             {
-                String input = scanner.next();
-                if (input.equalsIgnoreCase("done")) 
-                {
-                    break;
-                }
-                intList.add(Integer.parseInt(input));
-            } 
-            catch (NumberFormatException e) 
-            {
-                System.out.println("Invalid input. Please enter an integer or 'done' to finish.");
+                System.out.println("Element at index " + i + ": " + intList.get(i));
             }
-        }
 
-        // Iterating over the ArrayList using a for loop
-        for (int i = 0; i < intList.size(); i++) 
-        {
-            System.out.println("Element at index " + i + ": " + intList.get(i));
-        }
-
-        // Demonstrating dynamic resizing of ArrayList
-        while (true) 
-        {
-            System.out.print("\nEnter another integer to add to the ArrayList (or type 'done' to finish): ");
-            try 
+            // Demonstrating dynamic resizing of ArrayList
+            while (true) 
             {
-                String input = scanner.next();
-                if (input.equalsIgnoreCase("done")) 
+                System.out.print("\nEnter another integer to add to the ArrayList (or type 'done' to finish): ");
+                try 
                 {
-                    break;
+                    if (scanner.hasNextInt()) 
+                    {
+                        intList.add(scanner.nextInt());
+                    } 
+                    else 
+                    {
+                        String input = scanner.next();
+                        if (input.equalsIgnoreCase("done")) 
+                        {
+                            break;
+                        } 
+                        else 
+                        {
+                            System.out.println("Invalid input. Please enter an integer or 'done' to finish.");
+                        }
+                    }
+                } 
+                catch (NumberFormatException e) 
+                {
+                    System.out.println("Invalid input. Please enter an integer or 'done' to finish.");
                 }
-                intList.add(Integer.parseInt(input));
-            } 
-            catch (NumberFormatException e) 
-            {
-                System.out.println("Invalid input. Please enter an integer or 'done' to finish.");
             }
-        }
 
-        System.out.println("\nAfter adding more elements to the ArrayList:");
-        for (int i = 0; i < intList.size(); i++) 
-        {
-            System.out.println("Element at index " + i + ": " + intList.get(i));
-        }
-        
-        scanner.close();
+            System.out.println("\nAfter adding more elements to the ArrayList:");
+            for (int i = 0; i < intList.size(); i++) 
+            {
+                System.out.println("Element at index " + i + ": " + intList.get(i));
+            }
+        } // Scanner is automatically closed here
     }
 }
